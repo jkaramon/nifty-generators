@@ -3,8 +3,12 @@ class <%= class_name %>
   #include MongoMapper::EmbeddedDocument
 
   attr_accessible <%= attributes.map { |a| ":#{a.name}" }.join(", ") %>
-  <% attributes.each do |a| %>
-  key :<%=a.name -%>, <%=a.type.to_s.camelize -%>
-  <% end %>
+
+<%- attributes.each do |a| -%>
+  key :<%=a.name -%>, <%=a.type.to_s.camelize %>
+<%- end -%>
+<%- unless options[:skip_timestamps] -%>
+  timestamps!
+<%- end -%>
 
 end
