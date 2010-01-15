@@ -1,4 +1,5 @@
   def test_show
-    get :show, :id => <%= class_name %>.first
+    get :show, :id => <%= get_fixture %>
     assert_template 'show'
   end
+

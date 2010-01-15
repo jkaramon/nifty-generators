@@ -1,4 +1,5 @@
   def test_edit
-    get :edit, :id => <%= class_name %>.first
+    get :edit, :id => <%= get_fixture %>
     assert_template 'edit'
   end
+

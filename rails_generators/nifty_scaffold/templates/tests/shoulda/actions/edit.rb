@@ -1,6 +1,6 @@
   context "GET to :edit" do
     setup do
-      get :edit, :id => <%= class_name %>.first
+      get :edit, :id => <%= get_fixture %>
     end
     should_assign_to :<%= singular_name %>
     should_respond_with :success
