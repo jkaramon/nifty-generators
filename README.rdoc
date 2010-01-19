@@ -1,7 +1,7 @@
 = Nifty Generators
 
 An extended verison of the collection of useful Rails generator scripts created by
-ryanb http://github.com/ryanb/nifty-generators/ adding improved controller tests when
+ryanb http://github.com/ryanb/nifty-generators adding improved controller tests when
 using Shoulda (http://github.com/thoughtbot/shoulda), support for using factory_girl
 (http://github.com/thoughtbot/factory_girl) to provide the test fixtures, and support
 for the generation of formtastic (http://github.com/justinfrench/formtastic/) powered
