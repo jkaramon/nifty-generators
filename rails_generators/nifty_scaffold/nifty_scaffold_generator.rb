@@ -77,7 +77,11 @@ class NiftyScaffoldGenerator < Rails::Generator::Base
         end
 
         if form_partial?
-          m.template "views/#{view_language}/_form.html.#{view_language}", "app/views/#{plural_name}/_form.html.#{view_language}"
+          if formtastic?
+            m.template "views/formtastic/_form.html.#{view_language}", "app/views/#{plural_name}/_form.html.#{view_language}"
+          else
+            m.template "views/#{view_language}/_form.html.#{view_language}", "app/views/#{plural_name}/_form.html.#{view_language}"
+          end
         end
 
         m.route_resources plural_name
@@ -201,6 +205,10 @@ class NiftyScaffoldGenerator < Rails::Generator::Base
     fixture_framework == :factory_girl
   end
 
+  def formtastic?
+    form_framework == :formtastic
+  end
+
   def get_file_contents(path)
     File.exist?(path) ? File.read(path) : ''
   end
@@ -227,6 +235,10 @@ protected
     options[:fixture_framework] ||= default_fixture_framework
   end
 
+  def form_framework
+    options[:form_framework] ||= default_form_framework
+  end
+
   def default_test_framework
     File.exist?(destination_path("spec")) ? :rspec : :testunit
   end
@@ -235,6 +247,9 @@ protected
     :yaml_fixtures
   end
 
+  def default_form_framework
+    :rails_form_helper
+  end
 
   def add_options!(opt)
     opt.separator ''
@@ -248,8 +263,8 @@ protected
     opt.on("--testunit", "Use test/unit for test files.") { options[:test_framework] = :testunit }
     opt.on("--rspec", "Use RSpec for test files.") { options[:test_framework] = :rspec }
     opt.on("--shoulda", "Use Shoulda for test files.") { options[:test_framework] = :shoulda }
-    opt.on("--yaml_fixtures", "Use standard YAML fixture files for fixtures") { options[:fixture_framework] = :yaml_fixtures }
     opt.on("--factory_girl", "Use Factory Girl for fixtures") { options[:fixture_framework] = :factory_girl }
+    opt.on("--formtastic", "Use formtastic for forms") { options[:form_framework] = :formtastic }
   end
 
   # is there a better way to do this? Perhaps with const_defined?
