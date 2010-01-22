@@ -504,19 +504,51 @@ class TestNiftyScaffoldGenerator < Test::Unit::TestCase
         end
       end
 
-      context "generator with shoulda and factory_girl specified" do
-        rails_generator :nifty_scaffold, "line_item", "name:string", :test_framework => :shoulda, :fixture_framework => :factory_girl
+      context "generator with factory_girl specified" do
+        rails_generator :nifty_scaffold, "line_item", "name:string", :fixture_framework => :factory_girl
 
-        should "have controller and model tests using factories" do
+        should "have factory.rb file" do
           assert_generated_file "test/factories.rb" do |body|
             assert_match " Factory.define :line_item ", body
           end
+        end
 
+        should "have controller tests using factories"
           assert_generated_file "test/functional/line_items_controller_test.rb" do |body|
             assert_match " Factory.", body
           end
+        end
+      end
 
-          #TODO add an assertion for unit test
+      context "generator with shoulda and factory_girl specified" do
+        rails_generator :nifty_scaffold, "line_item", "name:string", :test_framework => :shoulda, :fixture_framework => :factory_girl
+
+        should "have factory.rb file" do
+          assert_generated_file "test/factories.rb" do |body|
+            assert_match " Factory.define :line_item ", body
+          end
+        end
+
+        should "have controller tests using factories"
+          assert_generated_file "test/functional/line_items_controller_test.rb" do |body|
+            assert_match " Factory.", body
+          end
+        end
+      end
+
+      context "generator with rspec and factory_girl specified" do
+        rails_generator :nifty_scaffold, "line_item", "name:string", :test_framework => :rspec, :fixture_framework => :factory_girl
+
+        should "have factory.rb file" do
+          assert_generated_file "spec/factories.rb" do |body|
+            assert_match " Factory.define :line_item ", body
+          end
+        end
+
+        should "have controller tests using factories"
+          assert_generated_file "spec/controllers/line_items_controller_spec.rb" do |body|
+            assert_match " Factory.", body
+          end
         end
       end
 
